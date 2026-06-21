@@ -102,6 +102,14 @@
 
 
 
+    <xacro:include filename="camera.xacro"/>
+
+
+    <joint name="camera_joint" type="fixed">
+        <parent link="base_link" />
+        <child link="camera_link" />
+        <origin xyz="${x/2} 0 ${z/2}" rpy="0 0 0" />
+    </joint>
 
 
 </robot>
