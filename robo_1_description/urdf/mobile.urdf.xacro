@@ -103,12 +103,19 @@
 
 
     <xacro:include filename="camera.xacro"/>
+    <xacro:include filename="lidar.xacro"/>
 
 
     <joint name="camera_joint" type="fixed">
         <parent link="base_link" />
         <child link="camera_link" />
         <origin xyz="${x/2} 0 ${z/2}" rpy="0 0 0" />
+    </joint>
+
+    <joint name="lidar_base_joint" type="fixed">
+        <parent link="base_link" />
+        <child link="lidar_link" />
+        <origin xyz="${x/3} 0 ${z}" rpy="0 0 0" />
     </joint>
 
 
