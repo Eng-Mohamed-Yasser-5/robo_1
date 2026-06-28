@@ -7,11 +7,24 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
+
 
 
 install(
-  DIRECTORY launch config
+  DIRECTORY launch config rviz src
   DESTINATION share/${PROJECT_NAME}/
 )
 
+add_executable(main_brain src/main_brain.cpp)
+ament_target_dependencies(main_brain rclcpp std_msgs)
+add_executable(publisher src/publisher.cpp)
+ament_target_dependencies(publisher rclcpp std_msgs)
+
+
+install(TARGETS
+  main_brain
+  publisher
+  DESTINATION lib/${PROJECT_NAME})
 ament_package()
