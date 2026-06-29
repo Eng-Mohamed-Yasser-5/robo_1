@@ -19,6 +19,7 @@
   <exec_depend>robo_1_description</exec_depend>
   <depend>rclcpp</depend>
   <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
 
   <!-- <exec_depend>robo_1_description</exec_depend> -->
 
