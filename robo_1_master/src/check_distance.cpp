@@ -3,17 +3,17 @@
 #include "sensor_msgs/msg/laser_scan.hpp"
 
 
-std::string subscribe_topic_name = "/scan";
+std::string sub_topic_name = "/scan";
 
 
 class MyNode : public rclcpp::Node {
 public:
-  MyNode() : Node("my_node") {
-    // Publisher initialization
-    publisher_ = this->create_publisher<std_msgs::msg::String>("main_topic", 10);
+  MyNode() : Node("get_closest_point") {
+    // Publisher initialization                                #Topic to publish
+    publisher_ = this->create_publisher<std_msgs::msg::String>("/closest_point", 10);
 
-    // Subscriber initialization
-    subscription_ = this->create_subscription<sensor_msgs::msg::LaserScan>(subscribe_topic_name, 10, std::bind(&MyNode::callback, this, std::placeholders::_1));
+    // Subscriber initialization                                           #Topic to sub , idk, Call back fun
+    subscription_ = this->create_subscription<sensor_msgs::msg::LaserScan>(sub_topic_name, 10, std::bind(&MyNode::callback, this, std::placeholders::_1));
   }
 
 private:
@@ -37,11 +37,26 @@ private:
         if (min_index != -1) {
             // Compute angle of closest point
             float angle = msg->angle_min + min_index * msg->angle_increment;
+
             RCLCPP_INFO(this->get_logger(),
                         "Closest point: distance = %.3f m, angle = %.3f rad",
                         min_distance, angle);
+
+            // Publish data on /closest_point topic
+            auto msg = std_msgs::msg::String();
+            msg.data = "Closest point: distance = " + std::to_string(min_distance) + " m, angle = " + std::to_string(angle) + " rad";
+
+            publisher_ -> publish(msg);
+
         } else {
             RCLCPP_WARN(this->get_logger(), "No valid points in scan.");
+
+
+            // Publish data on /closest_point topic
+            auto msg = std_msgs::msg::String();
+            msg.data = "No valid points in scan.";
+
+            publisher_ -> publish(msg);
         }
     }
   rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;
