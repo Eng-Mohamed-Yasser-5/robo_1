@@ -9,15 +9,25 @@ std::string sub_topic_name = "/scan";
 class MyNode : public rclcpp::Node {
 public:
   MyNode() : Node("get_closest_point") {
+
+    // parameters
+    this->declare_parameter("range",3);
+
     // Publisher initialization                                #Topic to publish
     publisher_ = this->create_publisher<std_msgs::msg::String>("/closest_point", 10);
 
     // Subscriber initialization                                           #Topic to sub , idk, Call back fun
     subscription_ = this->create_subscription<sensor_msgs::msg::LaserScan>(sub_topic_name, 10, std::bind(&MyNode::callback, this, std::placeholders::_1));
+
+    RCLCPP_INFO(this->get_logger(), "Node %s started succesfuly..\nparam %s : %s", "get_closest_point", "range", this->get_parameter("range").as_string());
   }
 
 private:
    void callback(const sensor_msgs::msg::LaserScan::SharedPtr msg) {
+
+        //get the parameter value
+        int range = this->get_parameter("range").as_int();
+
         float min_distance = std::numeric_limits<float>::infinity();
         int min_index = -1;
 
@@ -38,18 +48,23 @@ private:
             // Compute angle of closest point
             float angle = msg->angle_min + min_index * msg->angle_increment;
 
-            RCLCPP_INFO(this->get_logger(),
-                        "Closest point: distance = %.3f m, angle = %.3f rad",
-                        min_distance, angle);
+            // RCLCPP_INFO(this->get_logger(),
+            //             "Closest point: distance = %.3f m, angle = %.3f rad",
+            //             min_distance, angle);
 
             // Publish data on /closest_point topic
             auto msg = std_msgs::msg::String();
-            msg.data = "Closest point: distance = " + std::to_string(min_distance) + " m, angle = " + std::to_string(angle) + " rad";
+
+            if(min_distance > range){
+                msg.data = "Danger! too close "+ std::to_string(min_distance);
+            }else{
+                msg.data = "Closest point: distance = " + std::to_string(min_distance) + " m, angle = " + std::to_string(angle) + " rad";
+            }
 
             publisher_ -> publish(msg);
 
         } else {
-            RCLCPP_WARN(this->get_logger(), "No valid points in scan.");
+            // RCLCPP_WARN(this->get_logger(), "No valid points in scan.");
 
 
             // Publish data on /closest_point topic

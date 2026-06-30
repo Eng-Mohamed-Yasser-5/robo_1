@@ -17,6 +17,7 @@ public:
 
     //Node..
     auto timer_callback = [this](){
+        // get the parameter value
       std::string my_param = this->get_parameter("my_parameter").as_string();
 
       RCLCPP_INFO(this->get_logger(), "Hello %s!", my_param.c_str());
