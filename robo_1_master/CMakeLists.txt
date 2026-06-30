@@ -26,10 +26,13 @@ ament_target_dependencies(publisher rclcpp std_msgs)
 add_executable(check_distance src/check_distance.cpp)
 ament_target_dependencies(check_distance rclcpp sensor_msgs)
 
+add_executable(minimal_param_node src/minimal_parameter.cpp)
+ament_target_dependencies(minimal_param_node rclcpp)
 
 install(TARGETS
   main_brain
   publisher
   check_distance
+  minimal_param_node
   DESTINATION lib/${PROJECT_NAME})
 ament_package()
