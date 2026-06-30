@@ -19,14 +19,23 @@ public:
     // Subscriber initialization                                           #Topic to sub , idk, Call back fun
     subscription_ = this->create_subscription<sensor_msgs::msg::LaserScan>(sub_topic_name, 10, std::bind(&MyNode::callback, this, std::placeholders::_1));
 
-    RCLCPP_INFO(this->get_logger(), "Node %s started succesfuly..\nparam %s : %s", "get_closest_point", "range", this->get_parameter("range").as_string());
+    //print on start
+    RCLCPP_INFO(this->get_logger(), "Node %s started succesfuly..\nparam %s : %s", "get_closest_point", "range", std::to_string(this->get_parameter("range").as_int()).c_str());
   }
 
 private:
+  //default value of range = 3
+   int last_range_value = 3;
    void callback(const sensor_msgs::msg::LaserScan::SharedPtr msg) {
 
         //get the parameter value
         int range = this->get_parameter("range").as_int();
+        if(range!=this->last_range_value){
+            this->last_range_value = range;
+            RCLCPP_INFO(this->get_logger(), "range : %s", std::to_string(range).c_str());
+        }
+
+
 
         float min_distance = std::numeric_limits<float>::infinity();
         int min_index = -1;
@@ -55,7 +64,7 @@ private:
             // Publish data on /closest_point topic
             auto msg = std_msgs::msg::String();
 
-            if(min_distance > range){
+            if(min_distance < range){
                 msg.data = "Danger! too close "+ std::to_string(min_distance);
             }else{
                 msg.data = "Closest point: distance = " + std::to_string(min_distance) + " m, angle = " + std::to_string(angle) + " rad";
