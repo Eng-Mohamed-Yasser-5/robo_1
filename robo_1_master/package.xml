@@ -21,6 +21,11 @@
   <depend>std_msgs</depend>
   <depend>sensor_msgs</depend>
 
+<!-- cv_bridge image_transport OpenCV -->
+  <depend>cv_bridge</depend>
+  <depend>image_transport</depend>
+  <depend>OpenCV</depend>
+
   <!-- <exec_depend>robo_1_description</exec_depend> -->
 
   <export>

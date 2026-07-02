@@ -11,6 +11,11 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
+#cv_bridge image_transport OpenCV
+find_package(cv_bridge REQUIRED)
+find_package(image_transport REQUIRED)
+find_package(OpenCV REQUIRED)
+
 
 
 install(
@@ -29,7 +34,11 @@ ament_target_dependencies(check_distance rclcpp sensor_msgs)
 add_executable(minimal_param_node src/minimal_parameter.cpp)
 ament_target_dependencies(minimal_param_node rclcpp)
 
+add_executable(camera src/camera.cpp)
+ament_target_dependencies(camera cv_bridge rclcpp std_msgs sensor_msgs image_transport OpenCV)
+
 install(TARGETS
+  camera
   main_brain
   publisher
   check_distance
