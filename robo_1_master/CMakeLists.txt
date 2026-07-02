@@ -17,6 +17,9 @@ find_package(image_transport REQUIRED)
 find_package(OpenCV REQUIRED)
 
 
+find_package(geometry_msgs REQUIRED)
+
+
 
 install(
   DIRECTORY launch config rviz src
@@ -37,11 +40,16 @@ ament_target_dependencies(minimal_param_node rclcpp)
 add_executable(camera src/camera.cpp)
 ament_target_dependencies(camera cv_bridge rclcpp std_msgs sensor_msgs image_transport OpenCV)
 
+add_executable(controller src/control.cpp)
+ament_target_dependencies(controller rclcpp std_msgs geometry_msgs)
+
+
 install(TARGETS
-  camera
   main_brain
   publisher
   check_distance
   minimal_param_node
+  camera
+  controller
   DESTINATION lib/${PROJECT_NAME})
 ament_package()
