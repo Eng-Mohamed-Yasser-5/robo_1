@@ -8,6 +8,10 @@
 
 // Minimal openCV ros2 node
 
+// To use external camera uncomment these two lines.  -- use droidcam to use your phone camera as a usb/wifi camere
+// cv::Mat frame;
+// cv::VideoCapture cam(0);
+
 class CameraNode : public rclcpp::Node
 {
 public:
@@ -27,6 +31,10 @@ private:
         {
             // get image from msg from "/camera/image_raw"
             cv::Mat frame = cv_bridge::toCvCopy(msg, "bgr8")->image;
+
+            // To use external camera uncomment this line
+            // cam.read(frame);
+
 
             // draw a circle
             int center_x = frame.cols/2;
