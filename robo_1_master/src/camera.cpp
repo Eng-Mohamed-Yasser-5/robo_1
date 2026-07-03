@@ -2,10 +2,11 @@
 
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/image.hpp"
-
 #include "cv_bridge/cv_bridge.hpp"
+#include "opencv2/opencv.hpp"
 
-#include <opencv2/opencv.hpp>
+
+// Minimal openCV ros2 node
 
 class CameraNode : public rclcpp::Node
 {
@@ -14,16 +15,7 @@ public:
     CameraNode()
     : Node("camera_node")
     {
-        subscription_ =
-        this->create_subscription<sensor_msgs::msg::Image>(
-            "/camera/image_raw",
-            10,
-            std::bind(
-                &CameraNode::imageCallback,
-                this,
-                std::placeholders::_1
-            )
-        );
+        subscription_ = this->create_subscription<sensor_msgs::msg::Image>("/camera/image_raw", 10, std::bind( &CameraNode::imageCallback, this, std::placeholders::_1));
     }
 
 private:
@@ -33,54 +25,33 @@ private:
     {
         try
         {
-            cv::Mat frame=
-            cv_bridge::toCvCopy(
-                msg,
-                "bgr8"
-            )->image;
+            // get image from msg from "/camera/image_raw"
+            cv::Mat frame = cv_bridge::toCvCopy(msg, "bgr8")->image;
 
-            int center_x=
-            frame.cols/2;
+            // draw a circle
+            int center_x = frame.cols/2;
+            int center_y = frame.rows/2;
+            cv::circle(frame, cv::Point(center_x,center_y), 20, cv::Scalar(0,255,0), 3);
 
-            int center_y=
-            frame.rows/2;
-
-            cv::circle(
-                frame,
-                cv::Point(center_x,center_y),
-                20,
-                cv::Scalar(0,255,0),
-                3
-            );
-
-            cv::imshow(
-                "camera",
-                frame
-            );
+            // show the frames after proccesing
+            cv::imshow("camera", frame);
 
             cv::waitKey(1);
         }
-
         catch(cv_bridge::Exception &e)
         {
-            RCLCPP_ERROR(
-                this->get_logger(),
-                "Error: %s",
-                e.what()
-            );
+            RCLCPP_ERROR(this->get_logger(), "Error: %s", e.what());
         }
     }
 
-    rclcpp::Subscription<
-    sensor_msgs::msg::Image>::SharedPtr subscription_;
+    rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr subscription_;
 };
 
 int main(int argc,char **argv)
 {
     rclcpp::init(argc,argv);
 
-    auto node=
-    std::make_shared<CameraNode>();
+    auto node = std::make_shared<CameraNode>();
 
     rclcpp::spin(node);
 
