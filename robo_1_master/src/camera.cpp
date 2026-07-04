@@ -12,6 +12,27 @@
 // cv::Mat frame;
 // cv::VideoCapture cam(0);
 
+void test_openCV(const sensor_msgs::msg::Image::SharedPtr msg)
+{
+    // get image from msg from "/camera/image_raw"
+    cv::Mat frame = cv_bridge::toCvCopy(msg, "bgr8")->image;
+
+    // To use external camera uncomment this line
+    // cam.read(frame);
+
+
+    // draw a circle
+    int center_x = frame.cols/2;
+    int center_y = frame.rows/2;
+    cv::circle(frame, cv::Point(center_x,center_y), 20, cv::Scalar(0,255,0), 3);
+
+    // show the frames after proccesing
+    cv::imshow("camera", frame);
+
+    cv::waitKey(1);
+
+};
+
 class CameraNode : public rclcpp::Node
 {
 public:
@@ -24,27 +45,11 @@ public:
 
 private:
 
-    void imageCallback(
-        const sensor_msgs::msg::Image::SharedPtr msg)
+    void imageCallback(const sensor_msgs::msg::Image::SharedPtr msg)
     {
         try
         {
-            // get image from msg from "/camera/image_raw"
-            cv::Mat frame = cv_bridge::toCvCopy(msg, "bgr8")->image;
-
-            // To use external camera uncomment this line
-            // cam.read(frame);
-
-
-            // draw a circle
-            int center_x = frame.cols/2;
-            int center_y = frame.rows/2;
-            cv::circle(frame, cv::Point(center_x,center_y), 20, cv::Scalar(0,255,0), 3);
-
-            // show the frames after proccesing
-            cv::imshow("camera", frame);
-
-            cv::waitKey(1);
+            test_openCV(msg);
         }
         catch(cv_bridge::Exception &e)
         {
