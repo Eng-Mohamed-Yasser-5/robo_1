@@ -5,6 +5,9 @@
 #include "cv_bridge/cv_bridge.hpp"
 #include "opencv2/opencv.hpp"
 
+#include "aim_tracker.h"
+// #include "test.h"
+
 
 // Minimal openCV ros2 node
 
@@ -41,6 +44,7 @@ public:
     : Node("camera_node")
     {
         subscription_ = this->create_subscription<sensor_msgs::msg::Image>("/camera/image_raw", 10, std::bind( &CameraNode::imageCallback, this, std::placeholders::_1));
+        RCLCPP_INFO(this->get_logger(), "Node camera run.");
     }
 
 private:
@@ -49,7 +53,12 @@ private:
     {
         try
         {
+            // RCLCPP_INFO(this->get_logger(), "Node camera callback run.");
+
             test_openCV(msg);
+            // RCLCPP_INFO(this->get_logger(), std::to_string(TEST_H::test(15)).c_str());
+            cv::Mat img = cv_bridge::toCvCopy(msg, "bgr8")->image;
+            AIM_TRACKER_H::run(img);
         }
         catch(cv_bridge::Exception &e)
         {
