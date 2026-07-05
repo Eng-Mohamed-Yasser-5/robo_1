@@ -3,9 +3,9 @@
 
 // #include "opencv2/opencv.hpp"
 
-void run(cv::Mat img);
+int run(cv::Mat img);
 
 int test();
-
+cv::Point2d getPoint();
 
 #endif

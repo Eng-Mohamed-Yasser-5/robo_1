@@ -55,10 +55,16 @@ private:
         {
             // RCLCPP_INFO(this->get_logger(), "Node camera callback run.");
 
-            test_openCV(msg);
+            // test_openCV(msg);
             // RCLCPP_INFO(this->get_logger(), std::to_string(TEST_H::test(15)).c_str());
             cv::Mat img = cv_bridge::toCvCopy(msg, "bgr8")->image;
-            AIM_TRACKER_H::run(img);
+            int isDetected = AIM_TRACKER_H::run(img);
+
+            if(isDetected)
+            {
+                cv::Point2d point = AIM_TRACKER_H::getPoint();
+                RCLCPP_INFO(this->get_logger(),"(%f,%f)",point.x, point.y);
+            }
         }
         catch(cv_bridge::Exception &e)
         {

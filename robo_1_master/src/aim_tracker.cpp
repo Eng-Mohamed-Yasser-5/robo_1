@@ -135,7 +135,7 @@ Point trackObj(cv::Point objPoint , cv::Mat img) {
 	}
 }
 
-Point findObj(Mat img) {
+std::pair<Point, int> findObj(Mat img) {
 
 	cvtColor(img, img_HSV, COLOR_BGR2HSV);
 
@@ -160,7 +160,7 @@ Point findObj(Mat img) {
 	
 	Point point_to_move =  trackObj(obj_point , img);
 
-	return point_to_move;
+	return {point_to_move , !empty(myRect)};
 }
 
 
@@ -219,8 +219,9 @@ int test()
 {
 	return 5;
 }
-
-void run(Mat img)
+Point myPoint;
+int isDetected = 0;
+int run(Mat img)
 {
     //img = cv::imread()
     // cam.read(img);
@@ -229,19 +230,23 @@ void run(Mat img)
 
 
     //Detect object using his color
-    Point myPoint = findObj(img);
+	std::pair<cv::Point, int> result = findObj(img);
+	myPoint = result.first;
+	isDetected = result.second;
 
     // goToTarget(myPoint);
     
-
     canvas(img, myPoint);
-
 
     imshow("image", img);
 
     waitKey(1);
 
+	return isDetected;
 }
+
+// return the point of the detected object
+cv::Point2d getPoint(){return myPoint;}
 
 
 // int main() {
