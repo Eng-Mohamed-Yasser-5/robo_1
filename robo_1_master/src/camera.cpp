@@ -5,6 +5,7 @@
 #include "cv_bridge/cv_bridge.hpp"
 #include "opencv2/opencv.hpp"
 
+#include "geometry_msgs/msg/point.hpp"
 #include "aim_tracker.h"
 // #include "test.h"
 
@@ -43,6 +44,7 @@ public:
     CameraNode()
     : Node("camera_node")
     {
+        publisher_ = this->create_publisher<geometry_msgs::msg::Point>("/target_prospective", 10);
         subscription_ = this->create_subscription<sensor_msgs::msg::Image>("/camera/image_raw", 10, std::bind( &CameraNode::imageCallback, this, std::placeholders::_1));
         RCLCPP_INFO(this->get_logger(), "Node camera run.");
     }
@@ -69,6 +71,11 @@ private:
                 std::pair<float, float> result = get_Prospective(img, point);
                 float x = result.first;
                 float y = result.second;
+                geometry_msgs::msg::Point point_prospective;
+                point_prospective.x = x;
+                point_prospective.y = y;
+                publisher_->publish(point_prospective);
+                
                 RCLCPP_INFO(this->get_logger(), "(%f,%f)", x,y);
             }
         }
@@ -79,6 +86,7 @@ private:
     }
 
     rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr subscription_;
+    rclcpp::Publisher<geometry_msgs::msg::Point>::SharedPtr publisher_;
 };
 
 int main(int argc,char **argv)

@@ -20,6 +20,7 @@
   <depend>rclcpp</depend>
   <depend>std_msgs</depend>
   <depend>sensor_msgs</depend>
+  <depend>geometry_msgs</depend>
 
 <!-- cv_bridge image_transport OpenCV -->
   <depend>cv_bridge</depend>

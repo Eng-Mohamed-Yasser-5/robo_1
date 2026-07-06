@@ -39,7 +39,7 @@ ament_target_dependencies(minimal_param_node rclcpp)
 
 # src/aim_tracker.cpp
 add_executable(camera src/camera.cpp src/aim_tracker.cpp)
-ament_target_dependencies(camera cv_bridge rclcpp std_msgs sensor_msgs image_transport OpenCV)
+ament_target_dependencies(camera cv_bridge rclcpp std_msgs sensor_msgs image_transport OpenCV geometry_msgs)
 
 add_executable(controller src/control.cpp)
 ament_target_dependencies(controller rclcpp std_msgs geometry_msgs)
