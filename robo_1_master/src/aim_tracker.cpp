@@ -248,6 +248,13 @@ int run(Mat img)
 // return the point of the detected object
 cv::Point2d getPoint(){return myPoint;}
 
+std::pair<float, float> get_Prospective(Mat img, Point2d point)
+{
+	float x = point.x / (img.size().width/2);
+	float y = point.y / (img.size().height/2);
+	return {x,y};
+}
+
 
 // int main() {
 

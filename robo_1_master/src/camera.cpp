@@ -63,7 +63,13 @@ private:
             if(isDetected)
             {
                 cv::Point2d point = AIM_TRACKER_H::getPoint();
-                RCLCPP_INFO(this->get_logger(),"(%f,%f)",point.x, point.y);
+                // RCLCPP_INFO(this->get_logger(),"(%f,%f)",point.x, point.y);
+
+
+                std::pair<float, float> result = get_Prospective(img, point);
+                float x = result.first;
+                float y = result.second;
+                RCLCPP_INFO(this->get_logger(), "(%f,%f)", x,y);
             }
         }
         catch(cv_bridge::Exception &e)
