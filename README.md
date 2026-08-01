@@ -25,6 +25,7 @@ The URDF is built from these xacro files in [`robo_1_description/urdf`](robo_1_d
 - `common_properties.xacro` – shared materials/constants
 
 <!-- 📸 URDF / RVIZ MODEL SCREENSHOT -->
+![robo_1 in zction](media/photos/rvis-0.png)
 <!-- Add a screenshot of the robot model loaded in RViz here, e.g.: -->
 <!-- ![Robot model in RViz](media/photos/robot_model_rviz.png) -->
 
