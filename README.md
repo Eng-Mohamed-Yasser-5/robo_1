@@ -1,4 +1,6 @@
 # robo_1
+A ROS2 repo for learning ros2 basics (Node, publisher & subscriber, parameters, urdf), computer vision basics, gazebo sim, sensor integration, control.
+in this project we created a mobile robot that has camera, lidar, tracking (openCV), control.
 
 A ROS 2 mobile robot project focused on closing the **sense → think → act** loop: a camera and a lidar feed perception nodes, which drive a decision/control node that sends velocity commands to the base. Built and tested on ROS 2 Jazzy / Ubuntu 24.04.
 
@@ -25,6 +27,7 @@ The URDF is built from these xacro files in [`robo_1_description/urdf`](robo_1_d
 - `common_properties.xacro` – shared materials/constants
 
 <!-- 📸 URDF / RVIZ MODEL SCREENSHOT -->
+![robo_1 in zction](media/photos/rvis-0.png)
 <!-- Add a screenshot of the robot model loaded in RViz here, e.g.: -->
 <!-- ![Robot model in RViz](media/photos/robot_model_rviz.png) -->
 
@@ -117,31 +120,4 @@ robo_1/
     └── videos/
 ```
 
-## Adding photos and videos
 
-This README has HTML comment markers (`<!-- 📸 ... -->` / `<!-- 🎥 ... -->`) at the spots
-where images/clips add the most value: the hero shot at the top, the RViz model
-screenshot, and a demo video/gif near the "Running" section.
-
-1. Drop your files into:
-   - `media/photos/` for images (`.png`, `.jpg`, `.gif`)
-   - `media/videos/` for video clips (`.mp4`, `.mov`)
-2. Uncomment (or add) the matching Markdown line and point it at your file, e.g.:
-   ```markdown
-   ![robo_1 in action](media/photos/robo_1_hero.png)
-   ```
-3. For video: GitHub READMEs won't autoplay an `.mp4` inline. Either:
-   - link a thumbnail image to the video file/YouTube link, or
-   - drag-and-drop the video into a GitHub issue/PR comment first — GitHub will host it
-     and give you a `https://github.com/user-attachments/...` URL you can paste
-     directly into the README as `![demo](that-url)`.
-4. Commit and push:
-   ```bash
-   git add media/ README.md
-   git commit -m "Add project photos/video to README"
-   git push
-   ```
-
-## License
-
-No license file is currently included in this repository — add one (e.g. MIT) if you intend for others to reuse this code.
