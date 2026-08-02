@@ -118,31 +118,4 @@ robo_1/
     └── videos/
 ```
 
-## Adding photos and videos
 
-This README has HTML comment markers (`<!-- 📸 ... -->` / `<!-- 🎥 ... -->`) at the spots
-where images/clips add the most value: the hero shot at the top, the RViz model
-screenshot, and a demo video/gif near the "Running" section.
-
-1. Drop your files into:
-   - `media/photos/` for images (`.png`, `.jpg`, `.gif`)
-   - `media/videos/` for video clips (`.mp4`, `.mov`)
-2. Uncomment (or add) the matching Markdown line and point it at your file, e.g.:
-   ```markdown
-   ![robo_1 in action](media/photos/robo_1_hero.png)
-   ```
-3. For video: GitHub READMEs won't autoplay an `.mp4` inline. Either:
-   - link a thumbnail image to the video file/YouTube link, or
-   - drag-and-drop the video into a GitHub issue/PR comment first — GitHub will host it
-     and give you a `https://github.com/user-attachments/...` URL you can paste
-     directly into the README as `![demo](that-url)`.
-4. Commit and push:
-   ```bash
-   git add media/ README.md
-   git commit -m "Add project photos/video to README"
-   git push
-   ```
-
-## License
-
-No license file is currently included in this repository — add one (e.g. MIT) if you intend for others to reuse this code.
