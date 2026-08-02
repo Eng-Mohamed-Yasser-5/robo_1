@@ -1,4 +1,6 @@
 # robo_1
+A ROS2 repo for learning ros2 and computer vision basics, sensor integration, control.
+in this project we created a mobile robot that has camera, lidar, tracking (openCV), control.
 
 A ROS 2 mobile robot project focused on closing the **sense → think → act** loop: a camera and a lidar feed perception nodes, which drive a decision/control node that sends velocity commands to the base. Built and tested on ROS 2 Jazzy / Ubuntu 24.04.
 
