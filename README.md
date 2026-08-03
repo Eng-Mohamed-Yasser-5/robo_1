@@ -86,6 +86,7 @@ ros2 run robo_1_master controller
 ros2 run robo_1_master main_brain
 ```
 
+![demo vedio](media/vedios/demo.gif)
 <!-- 🎥 DEMO VIDEO / GIF GOES HERE -->
 <!-- Add a short demo clip of the robot detecting/tracking a target and moving, e.g.: -->
 <!-- [![Watch the demo](media/photos/demo_thumbnail.png)](media/videos/demo.mp4) -->
